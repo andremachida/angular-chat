@@ -43,8 +43,65 @@ functions:
 # Read more here:
 # https://www.graph.cool/docs/reference/auth/authorization/overview-iegoo0heez
 permissions:
-  - operation: "*"
+  - operation: User.read
+    fields: [id, password]
+  - operation: User.create
+    fields: [name, email, password]
 
+  - operation: User.read
+    authenticated: true
+  - operation: User.update
+    authenticated: true
+  - operation: User.delete
+    authenticated: true
+
+  - operation: Chat.read
+    authenticated: true
+  - operation: Chat.update
+    authenticated: true
+  - operation: Chat.create
+    authenticated: true
+  - operation: Chat.delete
+    authenticated: true
+
+  - operation: Message.read
+    authenticated: true
+  - operation: Message.update
+    authenticated: true
+  - operation: Message.create
+    authenticated: true
+  - operation: Message.delete
+    authenticated: true
+
+  - operation: File.read
+    authenticated: true
+  - operation: File.update
+    authenticated: true
+  - operation: File.create
+    authenticated: true
+  - operation: File.delete
+    authenticated: true
+
+  - operation: UsersOnChats.connect
+    authenticated: true
+  - operation: UsersOnChats.disconnect
+    authenticated: true
+
+  - operation: MessagesOnChat.connect
+    authenticated: true
+
+  - operation: MessagesOnUser.connect
+    authenticated: true
+
+  - operation: UserPhoto.connect
+    authenticated: true
+  - operation: UserPhoto.disconnect
+    authenticated: true
+
+  - operation: ChatPhoto.connect
+    authenticated: true
+  - operation: ChatPhoto.disconnect
+    authenticated: true
 
 # Your root tokens used for functions to get full access to the API
 # Read more here:
