@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, HostBinding } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
 import { AuthService } from '../../../core/services/auth.service';
 import { takeWhile } from 'rxjs/operators';
@@ -6,7 +6,6 @@ import { ErrorService } from '../../../core/services/error.service';
 import { MatSnackBar } from '@angular/material';
 
 @Component({
-  selector: 'app-login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss']
 })
@@ -21,6 +20,8 @@ export class LoginComponent implements OnInit, OnDestroy {
   };
   private nameControl = new FormControl('', [ Validators.required, Validators.minLength(5) ]);
   private alive = true;
+
+  @HostBinding('class.app-login-spinner') private applySpinnerClass = true;
 
   constructor(
     private formBuilder: FormBuilder,
