@@ -25,7 +25,7 @@ export class LoginComponent implements OnInit, OnDestroy {
 
   constructor(
     private formBuilder: FormBuilder,
-    private authService: AuthService,
+    public authService: AuthService,
     private errorService: ErrorService,
     private snackBar: MatSnackBar
   ) { }
@@ -67,6 +67,10 @@ export class LoginComponent implements OnInit, OnDestroy {
     this.configs.actionText = !this.configs.isLogin ?  'Sign Up' : 'Sign In';
     this.configs.buttonActionText = !this.configs.isLogin ?  'Already Have Account' : 'Create Account';
     !this.configs.isLogin ? this.loginForm.addControl('name', this.nameControl) : this.loginForm.removeControl('name');
+  }
+
+  onKeepSigned(): void {
+    this.authService.toggleKeepSigned();
   }
 
   get email(): FormControl {

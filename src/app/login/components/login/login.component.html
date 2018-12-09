@@ -25,6 +25,7 @@
           <mat-error *ngIf="password.hasError('required')">This field is required</mat-error>
           <mat-error *ngIf="password.hasError('minlength')">Enter at least 5 characters</mat-error>
         </mat-form-field>
+        <mat-slide-toggle [checked]="authService.keepSigned" (change)="onKeepSigned()">Keep me signed in</mat-slide-toggle>
         <button mat-button type=submit color="primary" [disabled]="loginForm.invalid">{{ configs.actionText }}</button>
         <button mat-button type=button color="primary" (click)="changeAction()">{{ configs.buttonActionText }}</button>
       </form>
