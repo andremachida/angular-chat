@@ -4,6 +4,7 @@ import { AuthService } from '../../../core/services/auth.service';
 import { takeWhile } from 'rxjs/operators';
 import { ErrorService } from '../../../core/services/error.service';
 import { MatSnackBar } from '@angular/material';
+import { Router } from '@angular/router';
 
 @Component({
   templateUrl: './login.component.html',
@@ -27,7 +28,8 @@ export class LoginComponent implements OnInit, OnDestroy {
     private formBuilder: FormBuilder,
     public authService: AuthService,
     private errorService: ErrorService,
-    private snackBar: MatSnackBar
+    private snackBar: MatSnackBar,
+    private router: Router
   ) { }
 
   ngOnInit() {
@@ -61,6 +63,7 @@ export class LoginComponent implements OnInit, OnDestroy {
         this.authService.setRememberMe(this.loginForm.value);
         const redirect: string = this.authService.redirectUrl || '/dashboard';
         console.log('Route to redirect: ', redirect);
+        this.router.navigate([redirect]);
         this.authService.redirectUrl = null;
         this.configs.isLoading = false;
       }, err => {
