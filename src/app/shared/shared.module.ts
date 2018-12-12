@@ -8,7 +8,10 @@ import {
   MatButtonModule,
   MatSnackBarModule,
   MatProgressSpinnerModule,
-  MatSlideToggleModule
+  MatSlideToggleModule,
+  MatListModule,
+  MatIconModule,
+  MatLineModule
 } from '@angular/material';
 import { ReactiveFormsModule } from '@angular/forms';
 
@@ -23,7 +26,10 @@ import { ReactiveFormsModule } from '@angular/forms';
     ReactiveFormsModule,
     MatSnackBarModule,
     MatProgressSpinnerModule,
-    MatSlideToggleModule
+    MatSlideToggleModule,
+    MatListModule,
+    MatIconModule,
+    MatLineModule
   ]
 })
 export class SharedModule { }
