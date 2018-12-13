@@ -12,7 +12,8 @@ import {
   MatListModule,
   MatIconModule,
   MatLineModule,
-  MatSidenavModule
+  MatSidenavModule,
+  MatTabsModule
 } from '@angular/material';
 import { ReactiveFormsModule } from '@angular/forms';
 
@@ -31,7 +32,8 @@ import { ReactiveFormsModule } from '@angular/forms';
     MatListModule,
     MatIconModule,
     MatLineModule,
-    MatSidenavModule
+    MatSidenavModule,
+    MatTabsModule
   ]
 })
 export class SharedModule { }
