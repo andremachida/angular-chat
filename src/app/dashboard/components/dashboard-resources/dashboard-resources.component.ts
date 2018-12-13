@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 
 @Component({
   selector: 'app-dashboard-resources',
@@ -7,19 +7,31 @@ import { Component, OnInit } from '@angular/core';
 })
 export class DashboardResourcesComponent implements OnInit {
 
+  @Input() isMenu = false;
+  @Output() close = new EventEmitter<void>();
+
   resources: any[] = [
     {
-      url: '/dashboard',
-      icon: 'home',
-      title: 'Home'
+      url: '/dashboard/chat',
+      icon: 'chat_bubble',
+      title: 'My Chats'
     }
   ];
 
   constructor() { }
 
-  ngOnInit() {
+  ngOnInit(): void {
+    if (this.isMenu) {
+      this.resources.unshift({
+        url: '/dashboard',
+        icon: 'home',
+        title: 'Home'
+      });
+    }
   }
 
-
+  onClose(): void {
+    this.close.emit();
+  }
 
 }
