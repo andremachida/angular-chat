@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { User } from '../../../core/models/user.model';
 import { UserService } from '../../../core/services/user.service';
 import { AuthService } from '../../../core/services/auth.service';
@@ -20,6 +20,9 @@ export class ChatUsersComponent implements OnInit {
 
   ngOnInit() {
     this.users$ = this.userService.allUsers(this.authService.authUser.id);
+    // setTimeout(() => {
+    //   return this.users$ = of([]);
+    // }, 3000);
   }
 
 }
