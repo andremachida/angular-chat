@@ -7,36 +7,37 @@ export interface AllChatsQuery {
 
 export const USER_CHATS_QUERY = gql`
   query UserChatsQuery($userId: ID!) {
-  allChats(
-    filter: {
-      users_some: {
-        id: $userId
-      }
-    }
-  ) {
-    id
-    title
-    createdAt
-    isGroup
-    users(
-      first: 1,
+    allChats(
       filter: {
-        id_not: $userId
+        users_some: {
+          id: $userId
+        }
       }
     ) {
       id
-      name
-      email
+      title
       createdAt
-    }
-    messages(
-      last: 1
-    ) {
-      id
-      text
-      sender {
+      isGroup
+      users(
+        first: 1,
+        filter: {
+          id_not: $userId
+        }
+      ) {
         id
         name
+        email
+        createdAt
+      }
+      messages(
+        last: 1
+      ) {
+        id
+        text
+        sender {
+          id
+          name
+        }
       }
     }
   }

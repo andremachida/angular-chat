@@ -8,7 +8,12 @@ import { ChatListComponent } from './components/chat-list/chat-list.component';
 import { ChatWindowComponent } from './components/chat-window/chat-window.component';
 
 @NgModule({
-  declarations: [ChatTabComponent, ChatUsersComponent, ChatListComponent, ChatWindowComponent],
+  declarations: [
+    ChatTabComponent,
+    ChatUsersComponent,
+    ChatListComponent,
+    ChatWindowComponent
+  ],
   imports: [
     SharedModule,
     ChatRoutingModule
