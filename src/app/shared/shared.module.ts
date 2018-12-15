@@ -15,7 +15,7 @@ import {
   MatSidenavModule,
   MatTabsModule
 } from '@angular/material';
-import { ReactiveFormsModule } from '@angular/forms';
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { NoRecordComponent } from './components/no-record/no-record.component';
 
 @NgModule({
@@ -35,7 +35,8 @@ import { NoRecordComponent } from './components/no-record/no-record.component';
     MatLineModule,
     MatSidenavModule,
     MatTabsModule,
-    NoRecordComponent
+    NoRecordComponent,
+    FormsModule
   ],
   declarations: [NoRecordComponent],
   imports: [
