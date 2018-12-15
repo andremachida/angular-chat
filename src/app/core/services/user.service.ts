@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Apollo } from 'apollo-angular';
 import { Observable } from 'rxjs';
 import { User } from '../models/user.model';
-import { ALL_USERS_QUERY, AllUsersQuery } from './user.graphql';
+import { ALL_USERS_QUERY, AllUsersQuery, UserQuery, GET_USER_BY_ID_QUERY } from './user.graphql';
 import { map } from 'rxjs/operators';
 
 @Injectable({
@@ -23,6 +23,18 @@ export class UserService {
         }
       }).pipe(
         map(res => res.data.allUsers)
+      );
+  }
+
+  getUserById(id: string): Observable<User> {
+    return this.apollo
+      .query<UserQuery>({
+        query: GET_USER_BY_ID_QUERY,
+        variables: {
+          userId: id
+        }
+      }).pipe(
+        map(res => res.data.User)
       );
   }
 }
