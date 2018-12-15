@@ -26,7 +26,6 @@ export class MessageService {
   }
 
   createMessage(message: { text: string, chatId: string, senderId: string }): Observable<Message> {
-    console.log(message);
     return this.apollo.mutate({
       mutation: CREATE_MESSAGE_MUTATION,
       variables: message
