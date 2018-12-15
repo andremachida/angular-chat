@@ -28,7 +28,7 @@ export class ChatWindowComponent implements OnInit, OnDestroy {
     private title: Title,
     private userService: UserService,
     private messageService: MessageService,
-    private authService: AuthService,
+    public authService: AuthService,
     private chatService: ChatService
   ) { }
 
