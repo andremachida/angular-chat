@@ -52,20 +52,24 @@ export class MessageService {
         }
       },
       update: (store: DataProxy, { data: { createMessage } }) => {
-        const data = store.readQuery<AllMessagesQuery>({
-          query: GET_CHAT_MESSAGES_QUERY,
-          variables: {
-            chatId: message.chatId
-          }
-        });
-        data.allMessages = [...data.allMessages, createMessage];
-        store.writeQuery({
-          query: GET_CHAT_MESSAGES_QUERY,
-          variables: {
-            chatId: message.chatId
-          },
-          data
-        });
+        try {
+          const data = store.readQuery<AllMessagesQuery>({
+            query: GET_CHAT_MESSAGES_QUERY,
+            variables: {
+              chatId: message.chatId
+            }
+          });
+          data.allMessages = [...data.allMessages, createMessage];
+          store.writeQuery({
+            query: GET_CHAT_MESSAGES_QUERY,
+            variables: {
+              chatId: message.chatId
+            },
+            data
+          });
+        } catch (e) {
+          console.log('AllMessageQuery not found!');
+        }
       }
     }).pipe(
       map(res => res.data.createMessage)
