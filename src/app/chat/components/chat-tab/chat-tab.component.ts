@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ChatService } from '../../services/chat.service';
 
 @Component({
   selector: 'app-chat-tab',
@@ -24,9 +25,12 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ChatTabComponent implements OnInit {
 
-  constructor() { }
+  constructor(
+    private chatService: ChatService
+  ) { }
 
-  ngOnInit() {
+  ngOnInit(): void {
+    this.chatService.startChatsMonitoring();
   }
 
 }
