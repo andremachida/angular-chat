@@ -91,7 +91,7 @@ export class MessageService {
             query: USER_CHATS_QUERY,
             variables: userChatsVariables,
             data: userChatsData
-          })
+          });
         } catch (e) {
           console.log('AllChatsQuery not found!');
         }

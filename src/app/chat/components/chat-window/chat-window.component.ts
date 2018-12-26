@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild, ElementRef, ViewChildren, QueryList, AfterViewInit } from '@angular/core';
 import { ActivatedRoute, ParamMap } from '@angular/router';
 import { Chat } from '../../models/chat.model';
 import { Subscription, Observable, of } from 'rxjs';
@@ -11,19 +11,23 @@ import { MessageService } from '../../services/message.service';
 import { AuthService } from '../../../core/services/auth.service';
 import { ChatService } from '../../services/chat.service';
 import { BaseComponent } from '../../../shared/components/base.component';
+import { ChatMessageComponent } from '../chat-message/chat-message.component';
 
 @Component({
   selector: 'app-chat-window',
   templateUrl: './chat-window.component.html',
   styleUrls: ['./chat-window.component.scss']
 })
-export class ChatWindowComponent extends BaseComponent<Message> implements OnInit, OnDestroy {
+export class ChatWindowComponent extends BaseComponent<Message> implements OnInit, OnDestroy, AfterViewInit {
   chat: Chat;
   messages$: Observable<Message[]>;
   recipientId: string = null;
   private subscriptions: Subscription[] = [];
   newMessage = '';
   alreadyLoadedMessages = false;
+
+  @ViewChild('content') private content: ElementRef;
+  @ViewChildren(ChatMessageComponent) private messagesQueryList: QueryList<ChatMessageComponent>;
 
   constructor(
     private route: ActivatedRoute,
@@ -58,6 +62,14 @@ export class ChatWindowComponent extends BaseComponent<Message> implements OnIni
           })
         )
         .subscribe()
+    );
+  }
+
+  ngAfterViewInit(): void {
+    this.subscriptions.push(
+      this.messagesQueryList.changes.subscribe(() => {
+        this.scrollToBottom('smooth');
+      })
     );
   }
 
@@ -99,6 +111,12 @@ export class ChatWindowComponent extends BaseComponent<Message> implements OnIni
           this.sendMessage();
         })
       ).subscribe();
+  }
+
+  private scrollToBottom(behavior: string = 'auto', block: string = 'end'): void {
+    setTimeout(() => {
+      this.content.nativeElement.scrollIntoView({ behavior, block });
+    }, 0);
   }
 
   ngOnDestroy(): void {
