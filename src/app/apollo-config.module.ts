@@ -5,10 +5,13 @@ import { ApolloModule, Apollo } from 'apollo-angular';
 import { HttpLinkModule, HttpLink } from 'apollo-angular-link-http';
 import { InMemoryCache } from 'apollo-cache-inmemory';
 import { onError } from 'apollo-link-error';
-import { ApolloLink } from 'apollo-link';
+import { ApolloLink, Operation } from 'apollo-link';
 import { StorageKeys } from './storage-keys';
 import { GRAPHCOOL_CONFIG, GraphcollConfig } from './core/providers/graphcool-config.provider';
 import { persistCache } from 'apollo-cache-persist';
+import { WebSocketLink } from 'apollo-link-ws';
+import { getOperationAST } from 'graphql';
+import { SubscriptionClient } from 'subscriptions-transport-ws';
 
 @NgModule({
   imports: [
@@ -18,6 +21,8 @@ import { persistCache } from 'apollo-cache-persist';
   ]
 })
 export class ApolloConfigModule {
+
+  private subscriptionClient: SubscriptionClient;
 
   constructor(
     private apollo: Apollo,
@@ -50,6 +55,16 @@ export class ApolloConfigModule {
     });
 
     const cache = new InMemoryCache();
+    const ws = new WebSocketLink({
+      uri: this.graphcoolConfig.subscriptionsAPI,
+      options: {
+        reconnect: true,
+        timeout: 30000,
+        connectionParams: () => ({ 'Authorization': `Bearer ${ this.getAuthToken() }`})
+      }
+    });
+
+    this.subscriptionClient = (<any>ws).subscriptionClient;
 
     persistCache({
       cache,
@@ -61,10 +76,21 @@ export class ApolloConfigModule {
     apollo.create({
       link: ApolloLink.from([
         linkError,
-        authMiddleware.concat(http)
+        ApolloLink.split(
+          (operation: Operation) => {
+            const operationAST = getOperationAST(operation.query, operation.operationName);
+            return !!operationAST && operationAST.operation === 'subscription';
+          },
+          ws,
+          authMiddleware.concat(http)
+        )
       ]),
       cache
     });
+  }
+
+  closeWebSocketConnection(): void {
+    this.subscriptionClient.close(true, true);
   }
 
   private getAuthToken(): string {

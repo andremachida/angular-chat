@@ -29,6 +29,7 @@
     "apollo-client": "2.4.7",
     "apollo-link": "^1.2.4",
     "apollo-link-error": "^1.1.2",
+    "apollo-link-ws": "^1.0.12",
     "core-js": "^2.5.4",
     "graphql": "14.0.2",
     "graphql-tag": "2.10.0",
@@ -36,6 +37,7 @@
     "js-base64": "^2.4.9",
     "rxjs": "~6.3.3",
     "smoothscroll-polyfill": "^0.4.3",
+    "subscriptions-transport-ws": "^0.9.15",
     "zone.js": "~0.8.26"
   },
   "devDependencies": {
