@@ -46,3 +46,25 @@ export const CREATE_MESSAGE_MUTATION = gql`
   }
   ${MessageFragment}
 `;
+
+export const USER_MESSAGES_SUBSCRIPTIONS = gql`
+  subscription UserMessagesSubscriptions($loggedUserId: ID!) {
+    Message(
+      filter: {
+        mutation_in: [ CREATED ],
+        node: {
+          chat: {
+            users_some: {
+              id: $loggedUserId
+            }
+          }
+        }
+      }
+    ) {
+      node {
+      ...MessageFragment
+      }
+    }
+  }
+  ${MessageFragment}
+`;
