@@ -99,3 +99,26 @@ export const CREATE_PRIVATE_CHAT_MUTATION = gql`
   ${ChatFragment}
   ${ChatMesssagesFragment}
 `;
+
+export const USER_CHATS_SUBSCRIPTION = gql`
+  subscription UserChatsSubscription($loggedUserId: ID!) {
+    Chat(
+      filter: {
+        mutation_in: [ CREATED, UPDATED ],
+        node: {
+          users_some: {
+            id: $loggedUserId
+          }
+        }
+      }
+    ) {
+      mutation
+      node {
+        ...ChatFragment
+        ...ChatMesssagesFragment
+      }
+    }
+  }
+  ${ChatFragment}
+  ${ChatMesssagesFragment}
+`;

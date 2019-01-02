@@ -55,6 +55,21 @@ export class ChatService {
       document: USER_MESSAGES_SUBSCRIPTIONS,
       variables: { loggedUserId: this.authService.authUser.id },
       updateQuery: (previous: AllChatsQuery, { subscriptionData }): AllChatsQuery => {
+        const newChat: Chat = subscriptionData.data.Chat.node;
+        if (previous.allChats.every(chat => chat.id !== newChat.id)) {
+          return {
+            ...previous,
+            allChats: [newChat, ...previous.allChats]
+          };
+        }
+        return previous;
+      }
+    });
+
+    this.queryRef.subscribeToMore({
+      document: USER_MESSAGES_SUBSCRIPTIONS,
+      variables: { loggedUserId: this.authService.authUser.id },
+      updateQuery: (previous: AllChatsQuery, { subscriptionData }): AllChatsQuery => {
         const newMessage: Message = subscriptionData.data.Message.node;
 
         try {
