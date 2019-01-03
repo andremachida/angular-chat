@@ -8,7 +8,7 @@ import { onError } from 'apollo-link-error';
 import { ApolloLink, Operation } from 'apollo-link';
 import { StorageKeys } from './storage-keys';
 import { GRAPHCOOL_CONFIG, GraphcollConfig } from './core/providers/graphcool-config.provider';
-import { persistCache } from 'apollo-cache-persist';
+import { CachePersistor } from 'apollo-cache-persist';
 import { WebSocketLink } from 'apollo-link-ws';
 import { getOperationAST } from 'graphql';
 import { SubscriptionClient } from 'subscriptions-transport-ws';
@@ -23,6 +23,7 @@ import { SubscriptionClient } from 'subscriptions-transport-ws';
 export class ApolloConfigModule {
 
   private subscriptionClient: SubscriptionClient;
+  cachePersistor: CachePersistor<any>;
 
   constructor(
     private apollo: Apollo,
@@ -65,12 +66,9 @@ export class ApolloConfigModule {
     });
 
     this.subscriptionClient = (<any>ws).subscriptionClient;
-
-    persistCache({
+    this.cachePersistor = new CachePersistor({
       cache,
       storage: window.localStorage
-    }).catch(err => {
-      console.log('Error while persisting cache', err);
     });
 
     apollo.create({

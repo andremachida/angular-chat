@@ -23,7 +23,8 @@ export class MessageService {
       query: GET_CHAT_MESSAGES_QUERY,
       variables: {
         chatId
-      }
+      },
+      fetchPolicy: 'network-only'
     }).valueChanges
       .pipe(
         map(res => res.data.allMessages)
