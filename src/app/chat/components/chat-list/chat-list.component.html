@@ -20,3 +20,13 @@
 <ng-template #noChats>
   <app-no-record icon="chat_bubble" title="No chats."></app-no-record>
 </ng-template>
+<button mat-fab class="fab-bottom-right" [matMenuTriggerFor]="chatListOptions">
+  <mat-icon>add</mat-icon>
+</button>
+
+<mat-menu #chatListOptions="matMenu" [overlapTrigger]="false">
+  <button mat-menu-item (click)="onAddGroup()">
+    <mat-icon>group_add</mat-icon>
+    <span>New Group</span>
+  </button>
+</mat-menu>

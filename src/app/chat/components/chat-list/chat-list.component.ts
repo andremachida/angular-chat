@@ -4,6 +4,8 @@ import { Chat } from '../../models/chat.model';
 import { ChatService } from '../../services/chat.service';
 import { AuthService } from '../../../core/services/auth.service';
 import { BaseComponent } from '../../../shared/components/base.component';
+import { MatDialog } from '@angular/material';
+import { ChatAddGroupComponent } from '../chat-add-group/chat-add-group.component';
 
 @Component({
   selector: 'app-chat-list',
@@ -16,7 +18,8 @@ export class ChatListComponent extends BaseComponent<Chat> implements OnInit {
 
   constructor(
     private chatService: ChatService,
-    private authService: AuthService
+    private authService: AuthService,
+    private dialog: MatDialog
   ) {
     super();
   }
@@ -40,6 +43,10 @@ export class ChatListComponent extends BaseComponent<Chat> implements OnInit {
     }
 
     return 'No messages';
+  }
+
+  onAddGroup(): void {
+    this.dialog.open(ChatAddGroupComponent, { width: '400px', height: '80vh' });
   }
 
 }
