@@ -54,6 +54,10 @@ export class ChatAddGroupComponent implements OnInit, OnDestroy {
     this.members.push(this.formBuilder.group(user));
   }
 
+  removeMember(index: number): void {
+    this.members.removeAt(index);
+  }
+
   get title(): FormControl {
     return <FormControl>this.newGroupForm.get('title');
   }

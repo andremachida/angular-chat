@@ -6,11 +6,11 @@
       <mat-error *ngIf="title.touched && title.hasError('required')">This field is required.</mat-error>
       <mat-error *ngIf="title.touched && title.hasError('minlength')">Enter at least 3 characters.</mat-error>
     </mat-form-field>
-    <mat-nav-list *ngIf="members.controls.length > 0">
+    <mat-nav-list formArrayName="members" *ngIf="members.controls.length > 0">
       <h3 matSubheader>Selected users:</h3>
-      <mat-list-item *ngFor="let member of members.controls">
+      <mat-list-item *ngFor="let member of members.controls; let i = index" [formGroupName]="i">
         <h3 matLine>{{ member.value.name }}</h3>
-        <button type="button" mat-icon-button>
+        <button type="button" mat-icon-button (click)="removeMember(i)">
           <mat-icon>close</mat-icon>
         </button>
       </mat-list-item>
