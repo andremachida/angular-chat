@@ -49,4 +49,8 @@ export class ChatListComponent extends BaseComponent<Chat> implements OnInit {
     this.dialog.open(ChatAddGroupComponent, { width: '400px', height: '80vh' });
   }
 
+  getChatImage(chat: Chat): string {
+    return !chat.isGroup ? 'assets/images/user-no-photo.png' : 'assets/images/group-no-photo.png';
+  }
+
 }

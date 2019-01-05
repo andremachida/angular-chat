@@ -7,16 +7,19 @@ import { map } from 'rxjs/operators';
 import { DataProxy } from 'apollo-cache';
 import { AllChatsQuery, USER_CHATS_QUERY } from './chat.graphql';
 import { AuthService } from '../../core/services/auth.service';
+import { BaseService } from '../../core/services/base.service';
 
 @Injectable({
   providedIn: 'root'
 })
-export class MessageService {
+export class MessageService extends BaseService {
 
   constructor(
     private apollo: Apollo,
     private authService: AuthService
-  ) { }
+  ) {
+    super();
+  }
 
   getChatMessages(chatId: string): Observable<Message[]> {
     return this.apollo.watchQuery<AllMessagesQuery>({
@@ -56,24 +59,15 @@ export class MessageService {
         }
       },
       update: (store: DataProxy, { data: { createMessage } }) => {
-        try {
-          const data = store.readQuery<AllMessagesQuery>({
-            query: GET_CHAT_MESSAGES_QUERY,
-            variables: {
-              chatId: message.chatId
-            }
-          });
-          data.allMessages = [...data.allMessages, createMessage];
-          store.writeQuery({
-            query: GET_CHAT_MESSAGES_QUERY,
-            variables: {
-              chatId: message.chatId
-            },
-            data
-          });
-        } catch (e) {
-          console.log('AllMessageQuery not found!');
-        }
+        this.readAndWriteQuery<Message>({
+          store,
+          newRecord: createMessage,
+          query: GET_CHAT_MESSAGES_QUERY,
+          queryName: 'allMessages',
+          arrayOperation: 'push',
+          variables: { chatId: message.chatId }
+        });
+
         try {
           const userChatsVariables = { loggedUserId: this.authService.authUser.id };
           const userChatsData = store.readQuery<AllChatsQuery>({
@@ -94,7 +88,7 @@ export class MessageService {
             data: userChatsData
           });
         } catch (e) {
-          console.log('AllChatsQuery not found!');
+          console.log(`QueryAllChats not found in cache.`);
         }
       }
     }).pipe(

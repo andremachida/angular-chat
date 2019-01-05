@@ -4,7 +4,7 @@
       <a mat-list-item [routerLink]="[chat.id]" *ngFor="let chat of chats; trackBy: trackByFn">
         <app-avatar
           matListAvatar
-          [src]="'assets/images/user-no-photo.png'"
+          [src]="getChatImage(chat)"
           [title]="getChatTitle(chat)"
           [conatainerStyles]="{ width: '40px', height: '40px', margin: 0 }">
         </app-avatar>
